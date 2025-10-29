@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الانضباط التعليمي</title>
+    <!-- تحميل Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- تحميل Chart.js للرسوم البيانية --><script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <!-- تحميل خط Inter الأساسي -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- تحميل خط Tajawal للعناوين (يستخدم لعرض النص بشكل أفضل) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        /* استخدام خط Inter مع خط احتياطي يدعم العربية */
+        body {
+            font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+            background-color: #f4f7f9;
+        }
+        /* تطبيق خط Tajawal على العنوان الرئيسي وكتلة الشعار */
+        .main-title {
+            font-family: 'Tajawal', 'Inter', sans-serif;
+        }
+        /* تلوين أزرار التبديل */
+        .tab-button.active {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5), 0 2px 4px -2px rgba(59, 130, 246, 0.5);
+        }
+        /* نمط البطاقات الرئيسية */
+        .kpi-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                
+                <!-- Title Block (Aligned right) -->
+                <div class="flex-grow text-right min-w-0">
+                    <!-- العنوان المحدث -->
+                    <h1 class="main-title text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 border-b-4 border-green-500 pb-2">
+                        متابعة الانضباط التعليمي
+                    </h1>
+                    <p class="text-lg text-gray-600">
+                        الإدارة العامة للتعليم بمحافظة الطائف - تاريخ التقرير: الإثنين 9 / 3 / 1447هـ
+                    </p>
+                </div>
+                
+                <!-- Logo Block (Aligned left/start in RTL) -->
+                <div class="flex-shrink-0">
+                    <!-- محاولة أخيرة لإدراج الشعار المرفوع باستخدام ID الملف الداخلي -->
+                    <!-- في حالة فشل التحميل، سيتم عرض صورة Placeholder -->
+                    <img 
+                        src="moe_logo.png" 
+                        alt="شعار وزارة التعليم" 
+                        class="h-20 w-auto object-contain p-1 rounded-xl shadow-lg border-2 border-green-500 bg-gray" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/128x80/10B981/ffffff?text=شعار+الوزارة'"
+                    >
+                </div>
+            </div>
+        </header>
+
+        <!-- Main KPIs Section --><section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <!-- KPI 1: Total Schools --><div class="kpi-card bg-white p-6 rounded-xl border-b-4 border-blue-500">
+                <p class="text-sm font-medium text-gray-500">المدارس المستهدفة</p>
+                <p class="text-4xl font-bold text-gray-900 mt-1">32</p>
+                <p class="text-xs text-gray-400 mt-2">15 بنين / 17 بنات</p>
+            </div>
+            <!-- KPI 2: Student Discipline Rate --><div class="kpi-card bg-white p-6 rounded-xl border-b-4 border-green-500">
+                <p class="text-sm font-medium text-gray-500">نسبة انضباط الطلاب الكلية</p>
+                <p class="text-4xl font-bold text-green-600 mt-1">93.5%</p>
+                <p class="text-xs text-gray-400 mt-2">إجمالي الحضور: 11994 من 12822</p>
+            </div>
+            <!-- KPI 3: Male Students Discipline Rate --><div class="kpi-card bg-white p-6 rounded-xl border-b-4 border-teal-500">
+                <p class="text-sm font-medium text-gray-500">انضباط الطلاب (بنين)</p>
+                <p class="text-4xl font-bold text-teal-600 mt-1">94.51%</p>
+                <p class="text-xs text-gray-400 mt-2">نسبة الغياب: 5.49%</p>
+            </div>
+            <!-- KPI 4: Female Students Discipline Rate --><div class="kpi-card bg-white p-6 rounded-xl border-b-4 border-red-500">
+                <p class="text-sm font-medium text-gray-500">انضباط الطلاب (بنات)</p>
+                <p class="text-4xl font-bold text-red-600 mt-1">92.32%</p>
+                <p class="text-xs text-gray-400 mt-2">نسبة الغياب: 7.68% (أعلى غياب)</p>
+            </div>
+        </section>
+
+        <!-- Charts Section (Students Discipline and School Level) --><section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+            <!-- Chart 1: Student Discipline Bar Chart --><div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">انضباط الطلاب حسب النوع</h2>
+                <canvas id="studentDisciplineChart"></canvas>
+            </div>
+
+            <!-- Chart 2: School Performance Level Pie Chart --><div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">توزيع المدارس حسب مستوى الأداء</h2>
+                <canvas id="schoolLevelChart"></canvas>
+                <div class="mt-4 text-sm text-gray-600">
+                    <p><span class="inline-block w-3 h-3 rounded-full bg-blue-500 ml-2"></span> متقدم: (19 مدرسة)</p>
+                    <p><span class="inline-block w-3 h-3 rounded-full bg-yellow-500 ml-2"></span> انطلاق: (11 مدرسة)</p>
+                    <p><span class="inline-block w-3 h-3 rounded-full bg-red-500 ml-2"></span> تهيئة: (2 مدرسة - تتطلب متابعة عاجلة)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Staff Discipline Table Section --><section class="bg-white p-6 rounded-xl shadow-lg mb-10">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">إحصائيات انضباط الكادر التعليمي والإداري</h2>
+            
+            <!-- Tab Buttons --><div class="flex space-x-2 space-x-reverse mb-4">
+                <button id="tabBaneen" class="tab-button active px-4 py-2 rounded-lg font-medium text-sm transition duration-150">بنين</button>
+                <button id="tabBanat" class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 transition duration-150">بنات</button>
+            </div>
+
+            <!-- Tables Container --><div id="tableBaneenContent">
+                <!-- Table for Baneen --><table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-blue-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider rounded-tr-lg">الفئة</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">العدد الإجمالي</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">الحضور</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">الغياب</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider rounded-tl-lg">نسبة الانضباط</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 text-sm" id="baneenTableBody">
+                        <!-- Data will be populated by JS --></tbody>
+                </table>
+            </div>
+
+            <div id="tableBanatContent" class="hidden">
+                <!-- Table for Banat --><table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-pink-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider rounded-tr-lg">الفئة</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">العدد الإجمالي</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">الحضور</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">الغياب</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider rounded-tl-lg">نسبة الانضباط</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 text-sm" id="banatTableBody">
+                        <!-- Data will be populated by JS --></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Challenges and Solutions Section --><section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Challenges --><div class="bg-white p-6 rounded-xl shadow-lg border-r-4 border-red-500">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">التحديات الرئيسية</h2>
+                <ul class="space-y-3 list-disc list-inside text-gray-700">
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-red-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.3 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        **عدم الانضباط في الحضور:** التحدي الأكبر (غياب 828 طالب وطالبة).
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-red-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20v-2c0-.214-.047-.42.105-.623a1.99 1.99 0 011.89-1.284c.594 0 1.155.197 1.564.577.42.39.641.916.641 1.458V20h-4zM11 2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2V4a2 2 0 00-2-2h-2z"></path></svg>
+                        **كثافة عدد الطلاب / الطالبات** في الفصول (3 مدارس متأثرة).
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-red-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 0l-3.536-3.536m3.536 3.536l-3.536 3.536m3.536-3.536l3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        **عدم تعاون بعض أولياء الأمور** في ضبط غياب أبنائهم.
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-red-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        **نقص المعلمات البديلات** للمعلمات المجازات (ملاحظة مباشرة).
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Solutions --><div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-green-500">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">الحلول المقترحة</h2>
+                <ul class="space-y-3 list-disc list-inside text-gray-700">
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        برامج **توعوية** مكثفة للطلاب وأولياء الأمور.
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        تطبيق **لائحة السلوك والمواظبة** بحزم وفاعلية (100% فعالية حالياً).
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        الاستمرار في **التعزيز الإيجابي** للطلاب المنضبطين وتكريمهم دورياً.
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="flex-shrink-0 w-5 h-5 text-green-500 mt-1 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8h12a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"></path></svg>
+                        التأكيد على مهام الهيئتين الإدارية والتعليمية كما ورد في الأدلة التنظيمية.
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Data extracted from the PDF report (Second Section: Personnel Statistics)
+        const staffData = {
+            baneen: [
+                { category: "مدير المدرسة", total: 15, present: 15, absent: 0 },
+                { category: "الوكلاء", total: 27, present: 24, absent: 3 },
+                { category: "الموجه الطلابي", total: 21, present: 21, absent: 0 },
+                { category: "المعلمون", total: 814, present: 798, absent: 16 },
+                { category: "المساعد الإداري", total: 74, present: 73, absent: 1 },
+                { category: "مقدم خدمة الدعم", total: 13, present: 12, absent: 1 },
+            ],
+            banat: [
+                { category: "مدير المدرسة", total: 17, present: 16, absent: 1 },
+                { category: "الوكلاء", total: 26, present: 25, absent: 1 },
+                { category: "الموجه الطلابي", total: 11, present: 8, absent: 3 },
+                { category: "المعلمون", total: 457, present: 420, absent: 37 },
+                { category: "المساعد الإداري", total: 140, present: 131, absent: 9 },
+                { category: "مقدم خدمة الدعم", total: 7, present: 7, absent: 0 },
+            ],
+            // Student data for charts
+            students: {
+                baneen: { total: 7128, present: 6737, absent: 391 },
+                banat: { total: 5694, present: 5257, absent: 437 }
+            },
+            // School level data (First Section: General Data)
+            schoolLevels: {
+                motaqaddem: 6 + 13, // بنين: 6, بنات: 13
+                enTilaq: 9 + 2, // بنين: 9, بنات: 2
+                tahyya: 0 + 2, // بنين: 0, بنات: 2
+            }
+        };
+
+        // Helper function to calculate percentage
+        const calculatePercentage = (part, total) => (total > 0 ? (part / total * 100).toFixed(2) : 0);
+
+        // Function to populate the staff tables
+        const populateTable = (data, tableBodyId) => {
+            const tbody = document.getElementById(tableBodyId);
+            tbody.innerHTML = ''; // Clear existing content
+            data.forEach(item => {
+                const disciplineRate = calculatePercentage(item.present, item.total);
+                // تحقق مما إذا كانت نسبة الانضباط تجاوزت 90%
+                const isHighDiscipline = parseFloat(disciplineRate) > 90; 
+                
+                // تحديد فئات CSS للصف والبطاقة بناءً على النسبة الجديدة (أكثر من 90%)
+                const rowClass = isHighDiscipline ? 'bg-green-50 hover:bg-green-100' : 'bg-red-50 hover:bg-red-100';
+                const badgeClass = isHighDiscipline ? 'text-green-800 bg-green-100' : 'text-white bg-red-500';
+
+                const row = `
+                    <tr class="${rowClass}">
+                        <td class="px-6 py-4 font-medium text-gray-900">${item.category}</td>
+                        <td class="px-6 py-4 text-gray-700">${item.total}</td>
+                        <td class="px-6 py-4 text-green-600 font-semibold">${item.present}</td>
+                        <td class="px-6 py-4 text-red-600 font-semibold">${item.absent}</td>
+                        <td class="px-6 py-4">
+                            <span class="${badgeClass} px-3 py-1 rounded-full text-xs font-semibold">
+                                ${disciplineRate}%
+                            </span>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        };
+
+        // Function to initialize the charts
+        const initializeCharts = () => {
+            // --- Chart 1: Student Discipline ---
+            const studentDisciplineCtx = document.getElementById('studentDisciplineChart').getContext('2d');
+            new Chart(studentDisciplineCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['طلاب (بنين)', 'طالبات (بنات)'],
+                    datasets: [
+                        {
+                            label: 'الحضور',
+                            data: [staffData.students.baneen.present, staffData.students.banat.present],
+                            backgroundColor: '#3b82f6', // Blue for presence
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'الغياب',
+                            data: [staffData.students.baneen.absent, staffData.students.banat.absent],
+                            backgroundColor: '#ef4444', // Red for absence
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true, title: { display: true, text: 'العدد الإجمالي' } }
+                    },
+                    plugins: {
+                        legend: { position: 'top', rtl: true },
+                        title: { display: false }
+                    }
+                }
+            });
+
+            // --- Chart 2: School Performance Level ---
+            const schoolLevelCtx = document.getElementById('schoolLevelChart').getContext('2d');
+            new Chart(schoolLevelCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['متقدم', 'انطلاق', 'تهيئة'],
+                    datasets: [{
+                        data: [
+                            staffData.schoolLevels.motaqaddem,
+                            staffData.schoolLevels.enTilaq,
+                            staffData.schoolLevels.tahyya
+                        ],
+                        backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444'], // Blue, Yellow, Red
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'right', rtl: true, labels: { usePointStyle: true, padding: 20 } },
+                        title: { display: false }
+                    }
+                }
+            });
+        };
+
+        // Function to handle tab switching
+        const setupTabs = () => {
+            const tabBaneen = document.getElementById('tabBaneen');
+            const tabBanat = document.getElementById('tabBanat');
+            const tableBaneenContent = document.getElementById('tableBaneenContent');
+            const tableBanatContent = document.getElementById('tableBanatContent');
+
+            const activateTab = (activeTab, inactiveTab, activeContent, inactiveContent) => {
+                activeTab.classList.add('active', 'bg-blue-500', 'text-white');
+                activeTab.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                
+                inactiveTab.classList.remove('active', 'bg-blue-500', 'text-white');
+                inactiveTab.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                
+                activeContent.classList.remove('hidden');
+                inactiveContent.classList.add('hidden');
+            };
+
+            tabBaneen.addEventListener('click', () => {
+                activateTab(tabBaneen, tabBanat, tableBaneenContent, tableBanatContent);
+            });
+
+            tabBanat.addEventListener('click', () => {
+                activateTab(tabBanat, tabBaneen, tableBanatContent, tableBaneenContent);
+            });
+        };
+
+        // Initialize on load
+        window.onload = () => {
+            // 1. Populate tables
+            populateTable(staffData.baneen, 'baneenTableBody');
+            populateTable(staffData.banat, 'banatTableBody');
+
+            // 2. Initialize charts
+            initializeCharts();
+
+            // 3. Setup tab functionality
+            setupTabs();
+        };
+
+    </script>
+
+</body>
+</html>
